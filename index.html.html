@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YCATU — A Água dos Nossos Rios Está em Perigo?</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --azul:     #0D3B5C;
+  --agua:     #0ABDE3;
+  --agua-cl:  #D6EAF8;
+  --verde:    #0A7A4B;
+  --verde-cl: #C8F0DC;
+  --laranja:  #E06C1A;
+  --laran-cl: #FDE8D0;
+  --verm:     #C0392B;
+  --verm-cl:  #FADBD8;
+  --amar:     #D4A017;
+  --amar-cl:  #FEF3CC;
+  --off:      #F4F8FC;
+  --cinza:    #2C3E50;
+  --branco:   #FFFFFF;
+  --sombra:   rgba(13,59,92,0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--off);
+  color: var(--cinza);
+  overflow-x: hidden;
+}
+
+/* ── BARRA DE PROGRESSO ── */
+#progress {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 4px; z-index: 1000;
+  background: linear-gradient(90deg, var(--agua), var(--verde), var(--amar));
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.1s;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 4px; left: 0; right: 0;
+  background: rgba(13,59,92,0.96);
+  backdrop-filter: blur(12px);
+  z-index: 999;
+  padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+}
+.nav-logo {
+  font-family: 'Fraunces', serif;
+  font-size: 22px; font-weight: 900;
+  color: var(--branco);
+  letter-spacing: 3px;
+}
+.nav-logo span { color: var(--agua); }
+.nav-links {
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.nav-links a {
+  color: rgba(255,255,255,0.65);
+  font-size: 11px; font-weight: 600;
+  text-decoration: none;
+  padding: 5px 10px; border-radius: 20px;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+.nav-links a:hover, .nav-links a.ativo {
+  color: var(--branco);
+  background: rgba(10,189,227,0.2);
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #051826 0%, #0D3B5C 45%, #0a4a6e 100%);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+  padding-top: 60px;
+}
+.hero-waves {
+  position: absolute; bottom: 0; left: 0; right: 0;
+}
+.hero-circles {
+  position: absolute; inset: 0;
+  pointer-events: none;
+}
+.hc {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, rgba(10,189,227,0.12) 0%, transparent 70%);
+  animation: pulsar 6s ease-in-out infinite;
+}
+.hc1 { width: 600px; height: 600px; top: -200px; right: -200px; animation-delay: 0s; }
+.hc2 { width: 350px; height: 350px; bottom: 50px; left: -100px; animation-delay: 2s; }
+.hc3 { width: 200px; height: 200px; top: 40%; left: 15%; animation-delay: 4s; }
+
+@keyframes pulsar {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center; padding: 40px 24px;
+  max-width: 800px;
+}
+.hero-gota {
+  font-size: 64px;
+  filter: drop-shadow(0 0 30px rgba(10,189,227,0.6));
+  animation: boiar 3.5s ease-in-out infinite;
+  display: block; margin-bottom: 20px;
+}
+@keyframes boiar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+.hero-titulo {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(42px, 8vw, 80px);
+  font-weight: 900;
+  color: var(--branco);
+  line-height: 1.05;
+  margin-bottom: 8px;
+}
+.hero-titulo .destaque { color: var(--agua); font-style: italic; }
+.hero-pergunta {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(22px, 4vw, 36px);
+  font-weight: 300;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 24px;
+}
+.hero-linha {
+  width: 80px; height: 3px;
+  background: linear-gradient(90deg, var(--agua), var(--amar));
+  margin: 0 auto 24px;
+  border-radius: 2px;
+}
+.hero-sub {
+  font-size: 15px; font-weight: 400;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.7; margin-bottom: 36px;
+}
+.hero-chips {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  justify-content: center; margin-bottom: 40px;
+}
+.chip {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.8);
+  padding: 7px 16px; border-radius: 30px;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.btn-hero {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--agua);
+  color: var(--azul);
+  padding: 14px 32px; border-radius: 50px;
+  font-size: 14px; font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s;
+  box-shadow: 0 8px 30px rgba(10,189,227,0.35);
+  letter-spacing: 0.5px;
+}
+.btn-hero:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(10,189,227,0.5); }
+
+/* ── SEÇÕES ── */
+.secao {
+  padding: 80px 24px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.secao-titulo {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 700;
+  color: var(--azul);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.secao-titulo .num {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px; color: var(--agua);
+  display: block; margin-bottom: 6px;
+  letter-spacing: 2px;
+}
+.secao-linha {
+  width: 50px; height: 3px;
+  background: linear-gradient(90deg, var(--agua), transparent);
+  border-radius: 2px; margin: 12px 0 28px;
+}
+.secao-intro {
+  font-size: 16px; line-height: 1.8;
+  color: #4a5a6a; margin-bottom: 32px;
+}
+
+/* ── CARDS DOIS RIOS ── */
+.dois-rios {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px; margin-bottom: 32px;
+}
+.rio-card {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px var(--sombra);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.rio-card:hover { transform: translateY(-6px); box-shadow: 0 16px 50px var(--sombra); }
+.rio-header {
+  padding: 20px 22px 16px;
+  display: flex; align-items: center; gap: 14px;
+}
+.rio-icon { font-size: 28px; }
+.rio-nome {
+  font-family: 'Fraunces', serif;
+  font-size: 20px; font-weight: 700;
+  color: var(--branco);
+}
+.rio-tipo { font-size: 10px; color: rgba(255,255,255,0.7); letter-spacing: 2px; text-transform: uppercase; }
+.rio-body { padding: 18px 22px 20px; }
+.rio-item { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; }
+.rio-item-icon { font-size: 14px; margin-top: 2px; flex-shrink: 0; }
+.rio-item-txt { font-size: 13.5px; line-height: 1.55; color: #3a4a5a; }
+.rio-item-txt strong { color: var(--azul); }
+
+/* ── STAT CARDS ── */
+.stats-trio {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px; margin-bottom: 32px;
+}
+.stat-card {
+  background: var(--branco);
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+  box-shadow: 0 4px 20px var(--sombra);
+  transition: transform 0.3s;
+  border-top: 4px solid var(--agua);
+}
+.stat-card:hover { transform: translateY(-4px); }
+.stat-num {
+  font-family: 'Fraunces', serif;
+  font-size: 48px; font-weight: 900;
+  color: var(--agua); line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-label { font-size: 12px; color: #7a8a9a; font-weight: 600; line-height: 1.4; }
+
+/* ── ALERTA ── */
+.alerta {
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex; align-items: flex-start; gap: 16px;
+  margin-bottom: 20px;
+  border-left: 5px solid;
+}
+.alerta-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+.alerta-titulo { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.alerta-txt { font-size: 13.5px; line-height: 1.65; }
+.alerta.laranja { background: var(--laran-cl); border-color: var(--laranja); }
+.alerta.laranja .alerta-titulo { color: var(--laranja); }
+.alerta.verde { background: var(--verde-cl); border-color: var(--verde); }
+.alerta.verde .alerta-titulo { color: var(--verde); }
+.alerta.azul { background: var(--agua-cl); border-color: var(--azul); }
+.alerta.azul .alerta-titulo { color: var(--azul); }
+.alerta.verm { background: var(--verm-cl); border-color: var(--verm); }
+.alerta.verm .alerta-titulo { color: var(--verm); }
+.alerta.amar { background: var(--amar-cl); border-color: var(--amar); }
+.alerta.amar .alerta-titulo { color: var(--amar); }
+
+/* ── PARAMETROS ACCORDION ── */
+.params { display: flex; flex-direction: column; gap: 10px; }
+.param-item {
+  background: var(--branco);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 3px 15px var(--sombra);
+  transition: box-shadow 0.3s;
+}
+.param-item:hover { box-shadow: 0 6px 25px var(--sombra); }
+.param-btn {
+  width: 100%; padding: 18px 22px;
+  display: flex; align-items: center; gap: 16px;
+  border: none; background: none; cursor: pointer;
+  text-align: left;
+}
+.param-cor {
+  width: 12px; height: 40px;
+  border-radius: 6px; flex-shrink: 0;
+}
+.param-emoji { font-size: 22px; flex-shrink: 0; }
+.param-info { flex: 1; }
+.param-nome { font-size: 15px; font-weight: 700; color: var(--azul); margin-bottom: 2px; }
+.param-desc { font-size: 12px; color: #8a9aaa; }
+.param-badge {
+  padding: 5px 14px; border-radius: 20px;
+  font-size: 13px; font-weight: 700;
+  flex-shrink: 0;
+}
+.param-seta {
+  font-size: 12px; color: #aaa;
+  transition: transform 0.3s; flex-shrink: 0;
+}
+.param-item.aberto .param-seta { transform: rotate(180deg); }
+.param-conteudo {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s;
+}
+.param-item.aberto .param-conteudo { max-height: 300px; }
+.param-inner {
+  padding: 0 22px 18px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.param-detalhe {
+  background: var(--off);
+  border-radius: 10px; padding: 12px 14px;
+}
+.param-detalhe-titulo { font-size: 10px; font-weight: 700; color: #9aaBBa; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+.param-detalhe-txt { font-size: 13px; color: var(--cinza); line-height: 1.5; }
+
+/* ── NOTA IQA ── */
+.iqa-box {
+  background: linear-gradient(135deg, #C0392B 0%, #E06C1A 100%);
+  border-radius: 24px;
+  padding: 36px;
+  display: flex; align-items: center; gap: 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 12px 40px rgba(192,57,43,0.3);
+  position: relative; overflow: hidden;
+}
+.iqa-box::before {
+  content: '';
+  position: absolute; top: -40px; right: -40px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+.iqa-nota {
+  font-family: 'Fraunces', serif;
+  font-size: 88px; font-weight: 900;
+  color: var(--branco); line-height: 1;
+  flex-shrink: 0;
+}
+.iqa-info { flex: 1; }
+.iqa-class {
+  font-size: 28px; font-weight: 700;
+  color: var(--branco); letter-spacing: 3px;
+  margin-bottom: 6px;
+}
+.iqa-desc { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.6; }
+
+/* ── TABELA CLASSIFICAÇÃO ── */
+.class-lista {
+  display: flex; flex-direction: column; gap: 8px;
+  margin-bottom: 28px;
+}
+.class-item {
+  border-radius: 12px; padding: 14px 20px;
+  display: flex; align-items: center; gap: 14px;
+  transition: transform 0.2s;
+}
+.class-item:hover { transform: translateX(4px); }
+.class-cor {
+  width: 14px; height: 14px;
+  border-radius: 50%; flex-shrink: 0;
+}
+.class-nome { font-weight: 700; font-size: 14px; min-width: 90px; }
+.class-faixa {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px; color: #7a8a9a;
+  min-width: 80px;
+}
+.class-sig { font-size: 13px; line-height: 1.45; flex: 1; }
+.class-seta { font-size: 18px; }
+
+/* ── SAZONALIDADE ── */
+.sazonal-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 12px; margin-bottom: 24px;
+}
+.sazonal-card {
+  border-radius: 14px; padding: 18px 16px;
+  text-align: center;
+  transition: transform 0.25s;
+}
+.sazonal-card:hover { transform: scale(1.04); }
+.sazonal-mes {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; letter-spacing: 1px;
+  text-transform: uppercase; margin-bottom: 6px;
+}
+.sazonal-nota {
+  font-family: 'Fraunces', serif;
+  font-size: 36px; font-weight: 900;
+  line-height: 1; margin-bottom: 4px;
+}
+.sazonal-class { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.sazonal-chuva { font-size: 11px; margin-top: 6px; opacity: 0.7; }
+
+/* ── MAPA ZONAS ── */
+.zonas {
+  display: flex; flex-direction: column; gap: 14px;
+  margin-bottom: 28px;
+}
+.zona {
+  border-radius: 16px; overflow: hidden;
+  box-shadow: 0 4px 18px var(--sombra);
+  display: flex;
+}
+.zona-cor { width: 10px; flex-shrink: 0; }
+.zona-body { padding: 18px 20px; flex: 1; }
+.zona-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.zona-badge {
+  padding: 4px 14px; border-radius: 20px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 1px;
+}
+.zona-pontos { font-size: 12px; color: #8a9aaa; font-family: 'Space Mono', monospace; }
+.zona-txt { font-size: 13.5px; line-height: 1.6; color: #4a5a6a; }
+
+/* ── CURIOSIDADES ── */
+.curiosidades-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.curio-card {
+  background: var(--branco);
+  border-radius: 16px;
+  padding: 20px 18px;
+  box-shadow: 0 4px 18px var(--sombra);
+  transition: transform 0.3s, box-shadow 0.3s;
+  border-top: 3px solid var(--agua);
+  cursor: default;
+}
+.curio-card:hover { transform: translateY(-5px); box-shadow: 0 12px 35px var(--sombra); }
+.curio-emoji { font-size: 28px; margin-bottom: 10px; display: block; }
+.curio-titulo { font-size: 13.5px; font-weight: 700; color: var(--azul); margin-bottom: 6px; line-height: 1.4; }
+.curio-txt { font-size: 12.5px; color: #5a6a7a; line-height: 1.6; }
+
+/* ── SAÚDE ── */
+.saude-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.saude-card {
+  border-radius: 16px; padding: 20px 18px;
+  display: flex; gap: 14px; align-items: flex-start;
+  box-shadow: 0 4px 16px var(--sombra);
+  transition: transform 0.25s;
+}
+.saude-card:hover { transform: translateY(-4px); }
+.saude-emoji { font-size: 26px; flex-shrink: 0; }
+.saude-nome { font-size: 13.5px; font-weight: 700; margin-bottom: 5px; }
+.saude-desc { font-size: 12.5px; line-height: 1.55; }
+
+/* ── O QUE MUDAR ── */
+.mudar-cols {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 20px; margin-bottom: 28px;
+}
+.mudar-col {
+  border-radius: 20px; overflow: hidden;
+  box-shadow: 0 6px 25px var(--sombra);
+}
+.mudar-header {
+  padding: 18px 22px;
+  display: flex; align-items: center; gap: 12px;
+}
+.mudar-header-icon { font-size: 22px; }
+.mudar-header-txt { font-size: 15px; font-weight: 700; color: var(--branco); }
+.mudar-lista { padding: 16px 22px 20px; list-style: none; }
+.mudar-lista li {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 8px 0;
+  font-size: 13.5px; line-height: 1.55;
+  color: #3a4a5a;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+.mudar-lista li:last-child { border-bottom: none; }
+.mudar-lista li::before { content: '→'; color: var(--agua); font-weight: 700; flex-shrink: 0; }
+
+/* ── AJUDAR ── */
+.ajudar-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 14px; margin-bottom: 24px;
+}
+.ajudar-card {
+  background: var(--branco);
+  border-radius: 16px; padding: 22px 16px;
+  text-align: center;
+  box-shadow: 0 4px 18px var(--sombra);
+  transition: transform 0.3s;
+}
+.ajudar-card:hover { transform: translateY(-5px); }
+.ajudar-emoji { font-size: 32px; margin-bottom: 10px; display: block; }
+.ajudar-titulo { font-size: 13px; font-weight: 700; color: var(--azul); margin-bottom: 8px; }
+.ajudar-lista { list-style: none; text-align: left; }
+.ajudar-lista li {
+  font-size: 12px; line-height: 1.5;
+  color: #5a6a7a; padding: 4px 0;
+  display: flex; gap: 6px; align-items: flex-start;
+}
+.ajudar-lista li::before { content: '•'; color: var(--agua); flex-shrink: 0; font-size: 10px; margin-top: 3px; }
+
+/* ── DENÚNCIA ── */
+.denuncia-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; margin-bottom: 20px;
+}
+.denuncia-card {
+  background: var(--branco);
+  border-radius: 14px; padding: 16px 18px;
+  box-shadow: 0 3px 14px var(--sombra);
+  border-left: 4px solid var(--agua);
+}
+.denuncia-orgao { font-size: 13px; font-weight: 700; color: var(--azul); margin-bottom: 4px; }
+.denuncia-fiscal { font-size: 11.5px; color: #7a8a9a; margin-bottom: 6px; }
+.denuncia-contato { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--verde); }
+
+/* ── FRASE FINAL ── */
+.frase-final-wrap {
+  background: linear-gradient(135deg, var(--azul) 0%, #0a5a80 100%);
+  border-radius: 28px; padding: 50px 40px;
+  text-align: center; margin: 48px 0;
+  position: relative; overflow: hidden;
+}
+.frase-final-wrap::before {
+  content: '"';
+  position: absolute; top: -20px; left: 30px;
+  font-family: 'Fraunces', serif;
+  font-size: 180px; color: rgba(255,255,255,0.05);
+  line-height: 1;
+}
+.frase-final {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(22px, 4vw, 36px);
+  font-weight: 700;
+  color: var(--branco); line-height: 1.4;
+  margin-bottom: 10px; position: relative;
+}
+.frase-final span { color: var(--amar); font-style: italic; }
+.frase-sub { font-size: 15px; color: rgba(255,255,255,0.6); margin-bottom: 28px; }
+.frase-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--agua);
+  color: var(--azul);
+  padding: 14px 32px; border-radius: 50px;
+  font-size: 13px; font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s;
+  box-shadow: 0 6px 20px rgba(10,189,227,0.4);
+}
+.frase-cta:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(10,189,227,0.5); }
+
+/* ── RODAPÉ ── */
+footer {
+  background: var(--azul);
+  padding: 36px 24px;
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Fraunces', serif;
+  font-size: 32px; font-weight: 900;
+  color: var(--branco); letter-spacing: 4px;
+  margin-bottom: 8px;
+}
+.footer-logo span { color: var(--agua); }
+.footer-txt { font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 0.5px; }
+
+/* ── FUNDO ALTERNADO ── */
+.bg-branco { background: var(--branco); }
+.bg-off { background: var(--off); }
+.bg-azul-cl { background: linear-gradient(180deg, #EBF5FC 0%, var(--off) 100%); }
+.full-w { max-width: 100%; padding: 80px 0; }
+.full-w .secao { padding: 0 24px; }
+
+/* ── ANIMAÇÕES DE ENTRADA ── */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visivel { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+
+/* ── RESPONSIVO ── */
+@media (max-width: 700px) {
+  .dois-rios, .mudar-cols, .saude-grid, .curiosidades-grid { grid-template-columns: 1fr; }
+  .stats-trio, .sazonal-grid { grid-template-columns: repeat(2, 1fr); }
+  .ajudar-grid { grid-template-columns: repeat(2, 1fr); }
+  .denuncia-grid { grid-template-columns: 1fr; }
+  .param-inner { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .iqa-box { flex-direction: column; text-align: center; }
+}
+@media (max-width: 480px) {
+  .stats-trio, .ajudar-grid { grid-template-columns: 1fr; }
+}
+
+/* ── DIVISOR ── */
+.divisor {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(13,59,92,0.12), transparent);
+  margin: 0;
+}
+</style>
+
+
+</head>
+<body class="">
+
+<div id="progress" ></div>
+
+<nav>
+  <div class="nav-logo">Y<span>C</span>ATU</div>
+  <div class="nav-links">
+    <a href="#rios" class="">Nossos Rios</a>
+    <a href="#pesquisa" class="">A Pesquisa</a>
+    <a href="#resultados" class="">Resultados</a>
+    <a href="#saude" class="">Saúde</a>
+    <a href="#ajudar" class="ativo">Como Ajudar</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-circles">
+    <div class="hc hc1"></div>
+    <div class="hc hc2"></div>
+    <div class="hc hc3"></div>
+  </div>
+  <div class="hero-content">
+    <span class="hero-gota">💧</span>
+    <h1 class="hero-titulo">A água dos<br>nossos <span class="destaque">rios</span></h1>
+    <p class="hero-pergunta">está em perigo?</p>
+    <div class="hero-linha"></div>
+    <p class="hero-sub">O que a ciência descobriu sobre o rio Guamá e a baía do Guajará em Belém — PA.<br>Dados reais. Linguagem simples. Para você.</p>
+    <div class="hero-chips">
+      <span class="chip">🔬 61 pontos monitorados</span>
+      <span class="chip">📅 2021–2022</span>
+      <span class="chip">🎓 UFPA · Eng. Sanitária</span>
+      <span class="chip">📊 Nota 58,9 — RUIM</span>
+    </div>
+    <a href="#rios" class="btn-hero">Descobrir os resultados ↓</a>
+  </div>
+  <svg class="hero-waves" viewBox="0 0 1440 80" preserveAspectRatio="none" style="height:80px">
+    <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#F4F8FC"></path>
+  </svg>
+</section>
+
+<!-- ═══ 1. NOSSOS RIOS ═══ -->
+<div class="bg-off" id="rios">
+<div class="secao">
+  <div class="reveal visivel">
+    <h2 class="secao-titulo"><span class="num">01 — CONHEÇA</span>Nossos rios</h2>
+    <div class="secao-linha"></div>
+    <p class="secao-intro">O rio Guamá e a baía do Guajará são muito mais do que paisagem, são parte da identidade de Belém e da vida de mais de 1,3 milhão de pessoas.</p>
+  </div>
+  <div class="dois-rios reveal reveal-d1 visivel">
+    <div class="rio-card">
+      <div class="rio-header" style="background: linear-gradient(135deg, #0D3B5C, #1a6fa8)">
+        <span class="rio-icon">🌊</span>
+        <div>
+          <div class="rio-nome">Rio Guamá</div>
+          <div class="rio-tipo">Rio fluvial amazônico</div>
+        </div>
+      </div>
+      <div class="rio-body" style="background:#EBF5FC">
+        <div class="rio-item"><span class="rio-item-icon">📍</span><span class="rio-item-txt"><strong>Nasce</strong> no interior do Pará e deságua na baía do Guajará em Belém</span></div>
+        <div class="rio-item"><span class="rio-item-icon">🎨</span><span class="rio-item-txt">Águas naturalmente <strong>escuras e ácidas</strong> — característica dos rios amazônicos com matéria orgânica florestal</span></div>
+        <div class="rio-item"><span class="rio-item-icon">🔬</span><span class="rio-item-txt"><strong>34 pontos</strong> monitorados ao longo do trecho urbano</span></div>
+        <div class="rio-item"><span class="rio-item-icon">🌧</span><span class="rio-item-txt">Cheias no <strong>inverno amazônico</strong> (dez–mai) e vazante no verão (jun–nov)</span></div>
+      </div>
+    </div>
+    <div class="rio-card">
+      <div class="rio-header" style="background: linear-gradient(135deg, #0a4a6e, #0ABDE3)">
+        <span class="rio-icon">🌅</span>
+        <div>
+          <div class="rio-nome">Baía do Guajará</div>
+          <div class="rio-tipo">Estuário: água doce + salgada</div>
+        </div>
+      </div>
+      <div class="rio-body" style="background:#F0FAFF">
+        <div class="rio-item"><span class="rio-item-icon">⚗️</span><span class="rio-item-txt">Zona onde o rio encontra o mar — ambiente único e muito <strong>sensível à poluição</strong></span></div>
+        <div class="rio-item"><span class="rio-item-icon">🚢</span><span class="rio-item-txt">Principal <strong>via de navegação</strong> de Belém e cenário do Ver-o-Peso</span></div>
+        <div class="rio-item"><span class="rio-item-icon">🔬</span><span class="rio-item-txt"><strong>27 pontos</strong> monitorados, incluindo trechos próximos à orla</span></div>
+        <div class="rio-item"><span class="rio-item-icon">🌊</span><span class="rio-item-txt">Marés sobem e descem <strong>duas vezes por dia</strong> — influenciando a dispersão dos poluentes</span></div>
+        <div class="rio-item"><span class="rio-item-icon">📋</span><span class="rio-item-txt" style="font-size:12px; color:#6a7a8a;">*Enquadrada legalmente como <strong>águas doces Classe 2</strong> (CONAMA 357/2005) em razão dos seus usos múltiplos, incluindo abastecimento público</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="alerta laranja reveal reveal-d2 visivel">
+    <span class="alerta-icon">⚠️</span>
+    <div>
+      <div class="alerta-titulo">A situação em Belém</div>
+      <div class="alerta-txt">Belém coleta apenas <strong>15,91%</strong> do seu esgoto e trata somente <strong>2,82%</strong> do volume total. Isso significa que quase todo o esgoto da cidade vai diretamente para o rio Guamá e a baía do Guajará, sem nenhum tratamento.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="divisor"></div>
+
+<!-- ═══ 2. A PESQUISA ═══ -->
+<div class="bg-branco" id="pesquisa">
+<div class="secao">
+  <div class="reveal visivel">
+    <h2 class="secao-titulo"><span class="num">02 — A CIÊNCIA</span>Como foi a pesquisa?</h2>
+    <div class="secao-linha"></div>
+    <p class="secao-intro">A equipe saiu de barco durante a maré vazante, no momento em que o esgoto dos canais urbanos se move em direção ao rio, representando o cenário mais crítico de qualidade da água.</p>
+  </div>
+  <div class="stats-trio reveal reveal-d1 visivel">
+    <div class="stat-card">
+      <div class="stat-num">61</div>
+      <div class="stat-label">pontos de<br>monitoramento</div>
+    </div>
+    <div class="stat-card" style="border-top-color: var(--verde)">
+      <div class="stat-num" style="color:var(--verde)">6</div>
+      <div class="stat-label">campanhas de<br>coleta (2021–2022)</div>
+    </div>
+    <div class="stat-card" style="border-top-color: var(--laranja)">
+      <div class="stat-num" style="color:var(--laranja)">+1.600</div>
+      <div class="stat-label">análises<br>laboratoriais</div>
+    </div>
+  </div>
+
+  <div class="reveal reveal-d2 visivel">
+    <h3 style="font-family:'Fraunces',serif; font-size:20px; color:var(--azul); margin-bottom:16px;">O que foi medido na água?</h3>
+    <p style="font-size:14px; color:#6a7a8a; margin-bottom:14px;">Toque em cada parâmetro para saber mais:</p>
+  </div>
+
+  <div class="params reveal reveal-d3 visivel">
+    <div class="param-item" onclick="toggleParam(this)">
+      <div class="param-btn">
+        <div class="param-cor" style="background:#E74C3C"></div>
+        <span class="param-emoji">🔴</span>
+        <div class="param-info">
+          <div class="param-nome">Fósforo Total</div>
+          <div class="param-desc">Vem do esgoto doméstico · Causa eutrofização</div>
+        </div>
+        <span class="param-badge" style="background:#FADBD8; color:#C0392B">59,32% violaram</span>
+        <span class="param-seta">▼</span>
+      </div>
+      <div class="param-conteudo">
+        <div class="param-inner">
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Limite legal</div><div class="param-detalhe-txt">≤ 0,10 mg/L</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Valor máximo registrado</div><div class="param-detalhe-txt">0,87 mg/L (quase 9x o limite!)</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">De onde vem</div><div class="param-detalhe-txt">Fezes, urina e detergentes do esgoto doméstico</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">O que causa</div><div class="param-detalhe-txt">Eutrofização — algas em excesso que sufocam a vida aquática</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="param-item" onclick="toggleParam(this)">
+      <div class="param-btn">
+        <div class="param-cor" style="background:#E67E22"></div>
+        <span class="param-emoji">🟠</span>
+        <div class="param-info">
+          <div class="param-nome">Oxigênio Dissolvido (OD)</div>
+          <div class="param-desc">O "ar" que os peixes respiram</div>
+        </div>
+        <span class="param-badge" style="background:#FDEBD0; color:#E67E22">43,72% violaram</span>
+        <span class="param-seta">▼</span>
+      </div>
+      <div class="param-conteudo">
+        <div class="param-inner">
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Limite legal</div><div class="param-detalhe-txt">≥ 5 mg/L</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Valor mínimo registrado</div><div class="param-detalhe-txt">3,09 mg/L — hipóxia moderada</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Por que cai</div><div class="param-detalhe-txt">Bactérias que decompõem o esgoto consomem o oxigênio</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Consequência</div><div class="param-detalhe-txt">Risco de estresse fisiológico em peixes e organismos aquáticos</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="param-item" onclick="toggleParam(this)">
+      <div class="param-btn">
+        <div class="param-cor" style="background:#D4A017"></div>
+        <span class="param-emoji">🟡</span>
+        <div class="param-info">
+          <div class="param-nome">pH — Acidez da água</div>
+          <div class="param-desc">Natural + agravado pelo esgoto urbano</div>
+        </div>
+        <span class="param-badge" style="background:#FEF3CC; color:#D4A017">46,72% violaram</span>
+        <span class="param-seta">▼</span>
+      </div>
+      <div class="param-conteudo">
+        <div class="param-inner">
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Limite legal</div><div class="param-detalhe-txt">Entre 6 e 9</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Valor mínimo</div><div class="param-detalhe-txt">4,62 — acidez severa em pontos urbanos</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Causa natural</div><div class="param-detalhe-txt">Matéria orgânica florestal e solos lateríticos amazônicos</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Causa antrópica</div><div class="param-detalhe-txt">Decomposição do esgoto libera CO₂, formando ácido carbônico</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="param-item" onclick="toggleParam(this)">
+      <div class="param-btn">
+        <div class="param-cor" style="background:#1A6FA8"></div>
+        <span class="param-emoji">🔵</span>
+        <div class="param-info">
+          <div class="param-nome">Turbidez</div>
+          <div class="param-desc">Quantidade de partículas suspensas na água</div>
+        </div>
+        <span class="param-badge" style="background:#D6EAF8; color:#1A6FA8">1,09% violaram</span>
+        <span class="param-seta">▼</span>
+      </div>
+      <div class="param-conteudo">
+        <div class="param-inner">
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Limite legal</div><div class="param-detalhe-txt">≤ 100 NTU</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Valor máximo</div><div class="param-detalhe-txt">140,7 NTU — em situações específicas de chuva intensa</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">De onde vem</div><div class="param-detalhe-txt">Chuvas carreando sedimentos e resíduos para o leito do rio</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Consequência</div><div class="param-detalhe-txt">Reduz penetração de luz, prejudicando a fotossíntese aquática</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="param-item" onclick="toggleParam(this)">
+      <div class="param-btn">
+        <div class="param-cor" style="background:#0A7A4B"></div>
+        <span class="param-emoji">🟢</span>
+        <div class="param-info">
+          <div class="param-nome">Nitrogênio Amoniacal</div>
+          <div class="param-desc">Boa notícia!</div>
+        </div>
+        <span class="param-badge" style="background:#C8F0DC; color:#0A7A4B">0% violaram ✓</span>
+        <span class="param-seta">▼</span>
+      </div>
+      <div class="param-conteudo">
+        <div class="param-inner">
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Limite legal</div><div class="param-detalhe-txt">≤ 3,7 mg/L</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Valor máximo</div><div class="param-detalhe-txt">1,04 mg/L — sempre abaixo do limite</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Por que está ok</div><div class="param-detalhe-txt">Nitrificação microbiana e diluição pelo volume da Baía do Guajará</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">O que causa</div><div class="param-detalhe-txt">Esgoto sem tratamento e decomposição de matéria orgânica</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="param-item" onclick="toggleParam(this)">
+      <div class="param-btn">
+        <div class="param-cor" style="background:#8E44AD"></div>
+        <span class="param-emoji">🌡️</span>
+        <div class="param-info">
+          <div class="param-nome">Temperatura</div>
+          <div class="param-desc">Regulada pela metodologia de linha de base local</div>
+        </div>
+        <span class="param-badge" style="background:#F5EEF8; color:#8E44AD">Limite contextual</span>
+        <span class="param-seta">▼</span>
+      </div>
+      <div class="param-conteudo">
+        <div class="param-inner">
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Como o limite foi definido</div><div class="param-detalhe-txt">CONAMA não define valor absoluto — permite variação máxima de +3°C sobre a temperatura natural do corpo hídrico</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Limite adotado na pesquisa</div><div class="param-detalhe-txt">31°C (média do período de monitoramento: 27,88°C + tolerância de 3°C)</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Valores registrados</div><div class="param-detalhe-txt">Entre 25,3°C e 30,6°C — todos dentro do limite</div></div>
+          <div class="param-detalhe"><div class="param-detalhe-titulo">Por que importa</div><div class="param-detalhe-txt">Temperatura elevada reduz a solubilidade do oxigênio, agravando a hipóxia</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="divisor"></div>
+
+<!-- ═══ 3. RESULTADOS ═══ -->
+<div class="bg-azul-cl" id="resultados">
+<div class="secao">
+  <div class="reveal visivel">
+    <h2 class="secao-titulo"><span class="num">03 — OS DADOS</span>O que encontramos?</h2>
+    <div class="secao-linha"></div>
+  </div>
+
+  <div class="iqa-box reveal reveal-d1 visivel">
+    <div class="iqa-nota">58,9</div>
+    <div class="iqa-info">
+      <div class="iqa-class">RUIM</div>
+      <div class="iqa-desc">Essa é a nota geral do sistema Guamá-Guajará pelo IQA-CCME — índice que vai de 0 a 100. As condições físico-químicas se desviam dos níveis naturais com frequência, comprometendo os usos previstos para a água.</div>
+    </div>
+  </div>
+
+  <div class="reveal reveal-d2 visivel">
+    <h3 style="font-family:'Fraunces',serif; font-size:20px; color:var(--azul); margin-bottom:14px;">Escala de classificação (CCME, 2017)</h3>
+  </div>
+
+  <div class="class-lista reveal reveal-d3 visivel">
+    <div class="class-item" style="background:#EBF5FC">
+      <div class="class-cor" style="background:#1A6FA8"></div>
+      <div class="class-nome" style="color:#1A6FA8">ÓTIMA</div>
+      <div class="class-faixa">95 a 100</div>
+      <div class="class-sig">Água protegida, condições muito próximas às naturais</div>
+    </div>
+    <div class="class-item" style="background:#C8F0DC">
+      <div class="class-cor" style="background:#0A7A4B"></div>
+      <div class="class-nome" style="color:#0A7A4B">BOA</div>
+      <div class="class-faixa">80 a 94</div>
+      <div class="class-sig">Pequeno grau de impacto, raramente se desvia do natural</div>
+    </div>
+    <div class="class-item" style="background:#FEF3CC">
+      <div class="class-cor" style="background:#D4A017"></div>
+      <div class="class-nome" style="color:#D4A017">REGULAR</div>
+      <div class="class-faixa">65 a 79</div>
+      <div class="class-sig">Impactos ocasionais, às vezes se desvia do nível natural</div>
+    </div>
+    <div class="class-item" style="background:#FDEBD0; border: 2px solid #E67E22">
+      <div class="class-cor" style="background:#E67E22"></div>
+      <div class="class-nome" style="color:#E67E22">RUIM ◀</div>
+      <div class="class-faixa">45 a 64</div>
+      <div class="class-sig"><strong>SITUAÇÃO DE BELÉM</strong> — frequentemente afetada, condições se desviam do natural</div>
+      <div class="class-seta">📍</div>
+    </div>
+    <div class="class-item" style="background:#FADBD8">
+      <div class="class-cor" style="background:#C0392B"></div>
+      <div class="class-nome" style="color:#C0392B">PÉSSIMA</div>
+      <div class="class-faixa">até 44</div>
+      <div class="class-sig">Quase sempre comprometida, condições geralmente alteradas</div>
+    </div>
+  </div>
+
+  <div class="reveal reveal-d2 visivel" style="margin-top:40px">
+    <h3 style="font-family:'Fraunces',serif; font-size:20px; color:var(--azul); margin-bottom:6px;">A chuva ajuda ou atrapalha?</h3>
+    <p style="font-size:14px; color:#6a7a8a; margin-bottom:18px;">A qualidade variou muito ao longo do ano. O inverno amazônico ajuda a diluir os poluentes — mas o esgoto continua entrando o ano inteiro.</p>
+  </div>
+
+  <div class="sazonal-grid reveal reveal-d3 visivel">
+    <div class="sazonal-card" style="background:#FDE8D0">
+      <div class="sazonal-mes" style="color:#E06C1A">Nov/2021</div>
+      <div class="sazonal-nota" style="color:#E06C1A">58,08</div>
+      <div class="sazonal-class" style="color:#E06C1A">RUIM</div>
+      <div class="sazonal-chuva">328mm · Atípico</div>
+    </div>
+    <div class="sazonal-card" style="background:#FEF3CC">
+      <div class="sazonal-mes" style="color:#D4A017">Dez/2021</div>
+      <div class="sazonal-nota" style="color:#D4A017">69,93</div>
+      <div class="sazonal-class" style="color:#D4A017">REGULAR</div>
+      <div class="sazonal-chuva">293mm · Chuvoso</div>
+    </div>
+    <div class="sazonal-card" style="background:#FEF3CC">
+      <div class="sazonal-mes" style="color:#D4A017">Fev/2022</div>
+      <div class="sazonal-nota" style="color:#D4A017">69,60</div>
+      <div class="sazonal-class" style="color:#D4A017">REGULAR</div>
+      <div class="sazonal-chuva">288mm · Chuvoso</div>
+    </div>
+    <div class="sazonal-card" style="background:#FDE8D0">
+      <div class="sazonal-mes" style="color:#E06C1A">Abr/2022</div>
+      <div class="sazonal-nota" style="color:#E06C1A">63,49</div>
+      <div class="sazonal-class" style="color:#E06C1A">RUIM</div>
+      <div class="sazonal-chuva">512,6mm · Pico de chuva</div>
+      <div style="font-size:10px; margin-top:5px; color:#a05010; line-height:1.4;">⚠️ Chuva intensa carreou poluentes acumulados na seca — efeito "first flush"</div>
+    </div>
+    <div class="sazonal-card" style="background:#FDEBD0">
+      <div class="sazonal-mes" style="color:#E67E22">Set/2022</div>
+      <div class="sazonal-nota" style="color:#E67E22">57,75</div>
+      <div class="sazonal-class" style="color:#E67E22">RUIM</div>
+      <div class="sazonal-chuva">210mm · Seco</div>
+    </div>
+    <div class="sazonal-card" style="background:#FEF3CC">
+      <div class="sazonal-mes" style="color:#D4A017">Dez/2022</div>
+      <div class="sazonal-nota" style="color:#D4A017">76,23</div>
+      <div class="sazonal-class" style="color:#D4A017">REGULAR</div>
+      <div class="sazonal-chuva">338mm · Chuvoso</div>
+    </div>
+  </div>
+
+  <div class="alerta azul reveal reveal-d4 visivel" style="margin-top:20px">
+    <span class="alerta-icon">💡</span>
+    <div>
+      <div class="alerta-titulo">Importante entender</div>
+      <div class="alerta-txt">A chuva <strong>não resolve</strong> o problema, ela apenas dilui temporariamente os poluentes. O esgoto continua sendo lançado nos rios o ano inteiro. Nos meses de seca, a água fica ainda mais contaminada porque há menos volume para diluir.</div>
+    </div>
+  </div>
+
+  <div class="reveal visivel" style="margin-top:40px">
+    <h3 style="font-family:'Fraunces',serif; font-size:20px; color:var(--azul); margin-bottom:16px;">Onde a situação é pior?</h3>
+  </div>
+
+  <div class="zonas reveal reveal-d1 visivel">
+    <div class="zona">
+      <div class="zona-cor" style="background:#0A7A4B"></div>
+      <div class="zona-body" style="background:#F0FFF8">
+        <div class="zona-header">
+          <span class="zona-badge" style="background:#C8F0DC; color:#0A7A4B">BOA</span>
+          <span class="zona-pontos">Pontos 3, 6 e 43</span>
+        </div>
+        <div class="zona-txt">Partes abertas da baía do Guajará com alta energia das marés e menor pressão urbana. O <strong>Ponto 43</strong> é especial: no meio da orla densa, uma área verde preservada garante água de qualidade boa — prova de que é possível!</div>
+      </div>
+    </div>
+    <div class="zona">
+      <div class="zona-cor" style="background:#D4A017"></div>
+      <div class="zona-body" style="background:#FFFDF0">
+        <div class="zona-header">
+          <span class="zona-badge" style="background:#FEF3CC; color:#D4A017">REGULAR</span>
+          <span class="zona-pontos">Maioria dos pontos</span>
+        </div>
+        <div class="zona-txt">Ao longo de todo o trecho urbano, a carga de poluição é constante. O rio não consegue se limpar sozinho, esses pontos mostram degradação crônica e consolidada.</div>
+      </div>
+    </div>
+    <div class="zona">
+      <div class="zona-cor" style="background:#E06C1A"></div>
+      <div class="zona-body" style="background:#FFF8F3">
+        <div class="zona-header">
+          <span class="zona-badge" style="background:#FDE8D0; color:#E06C1A">RUIM</span>
+          <span class="zona-pontos">Pontos 10, 44, 45, 48, 55</span>
+        </div>
+        <div class="zona-txt">Orla densa do Jurunas, Batista Campos e foz de canais de macrodrenagem. Esgoto lançado diretamente pelos canais urbanos. Os pontos 10 e 55 ficam em curvas do rio onde a água fica parada, "zonas de sombra" que acumulam poluentes.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="divisor"></div>
+
+<!-- ═══ 4. CONAMA e IQA ═══ -->
+<div class="bg-branco">
+<div class="secao">
+  <div class="reveal visivel">
+    <h2 class="secao-titulo"><span class="num">04 — AS FERRAMENTAS</span>CONAMA 357 e IQA-CCME</h2>
+    <div class="secao-linha"></div>
+  </div>
+  <div class="dois-rios reveal reveal-d1 visivel">
+    <div class="rio-card">
+      <div class="rio-header" style="background: linear-gradient(135deg, #0D3B5C, #1a6fa8)">
+        <span class="rio-icon">📋</span>
+        <div>
+          <div class="rio-nome">CONAMA 357/2005</div>
+          <div class="rio-tipo">Lei brasileira de proteção das águas</div>
+        </div>
+      </div>
+      <div class="rio-body" style="background:#EBF5FC">
+        <div class="rio-item"><span class="rio-item-icon">⚖️</span><span class="rio-item-txt">Lei federal que define os <strong>limites máximos</strong> de poluentes permitidos em rios e lagos</span></div>
+        <div class="rio-item"><span class="rio-item-icon">🏷️</span><span class="rio-item-txt">Classifica os rios por uso: <br><strong>Classe 2</strong> = abastecimento com tratamento, pesca e recreação</span></div>
+        <div class="rio-item"><span class="rio-item-icon">📍</span><span class="rio-item-txt">O rio Guamá e a baía do Guajará são enquadrados na <strong>Classe 2</strong></span></div>
+      </div>
+    </div>
+    <div class="rio-card">
+      <div class="rio-header" style="background: linear-gradient(135deg, #0a4a6e, #0ABDE3)">
+        <span class="rio-icon">🧮</span>
+        <div>
+          <div class="rio-nome">IQA-CCME</div>
+          <div class="rio-tipo">Índice canadense de qualidade da água</div>
+        </div>
+      </div>
+      <div class="rio-body" style="background:#F0FAFF">
+        <div class="rio-item"><span class="rio-item-icon">📊</span><span class="rio-item-txt">Transforma vários dados técnicos em uma <strong>nota de 0 a 100</strong></span></div>
+        <div class="rio-item"><span class="rio-item-icon">🔍</span><span class="rio-item-txt">Avalia 3 dimensões: <strong>quantos</strong> parâmetros falham, <strong>com que frequência</strong> e <strong>o quanto</strong> falham</span></div>
+        <div class="rio-item"><span class="rio-item-icon">🌎</span><span class="rio-item-txt">Destaca-se pela <strong>flexibilidade na escolha de parâmetros</strong> e pela capacidade de incorporar os padrões legais brasileiros (CONAMA 357/2005) como referência</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="divisor"></div>
+
+<!-- ═══ 5. CURIOSIDADES ═══ -->
+<div class="bg-off">
+<div class="secao">
+  <div class="reveal visivel">
+    <h2 class="secao-titulo"><span class="num">05 — VOCÊ SABIA?</span>Dados que impressionam</h2>
+    <div class="secao-linha"></div>
+  </div>
+  <div class="curiosidades-grid reveal reveal-d1 visivel">
+    <div class="curio-card">
+      <span class="curio-emoji">💧</span>
+      <div class="curio-titulo">Menos de 0,01% da água do planeta é acessível</div>
+      <div class="curio-txt">Toda a água do mundo existe em abundância, mas apenas uma fração minúscula está disponível para uso humano direto. Proteger cada gota limpa é questão de sobrevivência global.&nbsp;</div>
+    </div>
+    <div class="curio-card">
+      <span class="curio-emoji">🏙️</span>
+      <div class="curio-titulo">Belém: um dos piores índices de saneamento do Brasil</div>
+      <div class="curio-txt">Com apenas 2,82% de tratamento de esgoto, Belém está entre as piores capitais em saneamento. Quase todo o esgoto vai diretamente para os rios que abastecem a cidade.</div>
+    </div>
+    <div class="curio-card">
+      <span class="curio-emoji">📍</span>
+      <div class="curio-titulo">61 pontos monitorados em mais de 30 km de rios</div>
+      <div class="curio-txt">Foram coletadas amostras desde as proximidades da Ilha do Combú até a Alça Viária — com 6 campanhas ao longo de um ano inteiro, capturando todos os períodos climáticos.</div>
+    </div>
+    <div class="curio-card">
+      <span class="curio-emoji">🌧️</span>
+      <div class="curio-titulo">Em abril/2022 choveu 512,6mm em um único mês</div>
+      <div class="curio-txt">Mesmo com essa chuva recorde, o IQA foi de apenas 63,49 — classificação RUIM. Prova de que a chuva sozinha não resolve o problema do esgoto sem tratamento.</div>
+    </div>
+    <div class="curio-card">
+      <span class="curio-emoji">🌿</span>
+      <div class="curio-titulo">Uma área verde preservada faz diferença real</div>
+      <div class="curio-txt">O Ponto 43, no meio da orla urbana degradada, foi classificado como BOM graças a uma área verde adjacente. A natureza funciona quando&nbsp; a deixamos trabalhar.</div>
+    </div>
+    <div class="curio-card">
+      <span class="curio-emoji">📊</span>
+      <div class="curio-titulo">O fósforo ultrapassou o limite em quase 9 vezes</div>
+      <div class="curio-txt">O valor máximo registrado foi 0,87 mg/L, o limite é 0,10 mg/L. Isso indica lançamento direto e intenso de esgoto doméstico sem qualquer tratamento prévio.</div>
+    </div>
+    <div class="curio-card">
+      <span class="curio-emoji">🌊</span>
+      <div class="curio-titulo">As marés sobem e descem duas vezes por dia em Belém</div>
+      <div class="curio-txt">Essa dinâmica semidiurna influencia diretamente a qualidade da água. Por isso as coletas foram feitas sempre durante a maré vazante, o momento mais crítico de poluição.</div>
+    </div>
+    <div class="curio-card">
+      <span class="curio-emoji">🐟</span>
+      <div class="curio-titulo">Os rios ainda abrigam biodiversidade aquática</div>
+      <div class="curio-txt">Apesar da poluição, o sistema ainda sustenta diversas espécies. Mas a depleção de oxigênio e o excesso de nutrientes criam zonas incompatíveis com a vida aquática.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="divisor"></div>
+
+<!-- ═══ 6. SAÚDE ═══ -->
+<div class="bg-branco" id="saude">
+<div class="secao">
+  <div class="reveal visivel">
+    <h2 class="secao-titulo"><span class="num">06 — SUA SAÚDE</span>O que isso significa para você?</h2>
+    <div class="secao-linha"></div>
+    <p class="secao-intro">A água com qualidade ruim não afeta só os peixes, ela afeta diretamente a saúde de quem vive às suas margens.</p>
+  </div>
+  <div class="saude-grid reveal reveal-d1 visivel">
+    <div class="saude-card" style="background:#FADBD8">
+      <span class="saude-emoji">🦠</span>
+      <div>
+        <div class="saude-nome" style="color:#C0392B">Fósforo em excesso (eutrofização)</div>
+        <div class="saude-desc" style="color:#5a3a3a">Proliferação de algas e cianobactérias que podem produzir toxinas causadoras de doenças de pele, nos olhos e problemas gastrointestinais</div>
+      </div>
+    </div>
+    <div class="saude-card" style="background:#FDEBD0">
+      <span class="saude-emoji">🐠</span>
+      <div>
+        <div class="saude-nome" style="color:#E67E22">Pouco oxigênio (hipóxia)</div>
+        <div class="saude-desc" style="color:#5a4a3a">Morte de peixes — reduzindo fonte de alimento e renda para pescadores e comunidades ribeirinhas</div>
+      </div>
+    </div>
+    <div class="saude-card" style="background:#FEF3CC">
+      <span class="saude-emoji">⚗️</span>
+      <div>
+        <div class="saude-nome" style="color:#D4A017">Água ácida (pH baixo)</div>
+        <div class="saude-desc" style="color:#5a4a2a">Desequilíbrio das comunidades aquáticas — agravado pela decomposição do esgoto, que libera CO₂ e acidifica ainda mais a água nos trechos urbanos</div>
+      </div>
+    </div>
+    <div class="saude-card" style="background:#EBF5FC">
+      <span class="saude-emoji">🚿</span>
+      <div>
+        <div class="saude-nome" style="color:#1A6FA8">Esgoto sem tratamento</div>
+        <div class="saude-desc" style="color:#3a4a5a">Risco de doenças como hepatite A, cólera, leptospirose e diarreias — especialmente em crianças</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="divisor"></div>
+
+<!-- ═══ 7. O QUE MUDAR ═══ -->
+<div class="bg-off">
+<div class="secao">
+  <div class="reveal visivel">
+    <h2 class="secao-titulo"><span class="num">07 — SOLUÇÕES</span>O que precisa mudar?</h2>
+    <div class="secao-linha"></div>
+    <p class="secao-intro">A chuva não vai resolver o problema. O que os rios de Belém precisam é de ação humana, investimento, política pública e participação da comunidade.</p>
+  </div>
+  <div class="mudar-cols reveal reveal-d1 visivel">
+    <div class="mudar-col">
+      <div class="mudar-header" style="background: linear-gradient(135deg, var(--azul), #1a6fa8)">
+        <span class="mudar-header-icon">🏛️</span>
+        <span class="mudar-header-txt">Para o poder público</span>
+      </div>
+      <ul class="mudar-lista" style="background:#EBF5FC">
+        <li>Ampliar a rede de coleta de esgoto em Belém</li>
+        <li>Construir Estações de Tratamento de Esgoto (ETEs)</li>
+        <li>Recuperar a vegetação ciliar nas margens dos rios</li>
+        <li>Controlar o descarte de lixo nos canais de drenagem</li>
+        <li>Separar a drenagem pluvial do esgoto sanitário</li>
+        <li>Investir em saneamento nas áreas de palafita</li>
+      </ul>
+    </div>
+    <div class="mudar-col">
+      <div class="mudar-header" style="background: linear-gradient(135deg, var(--verde), #0a9a60)">
+        <span class="mudar-header-icon">👥</span>
+        <span class="mudar-header-txt">Para a comunidade</span>
+      </div>
+      <ul class="mudar-lista" style="background:#F0FFF8">
+        <li>Não jogar lixo nos rios, igarapés ou canais</li>
+        <li>Denunciar lançamentos ilegais de esgoto</li>
+        <li>Participar de conselhos sobre saneamento</li>
+        <li>Valorizar as áreas verdes próximas aos rios</li>
+        <li>Cobrar dos candidatos planos de saneamento</li>
+        <li>Compartilhar esse conhecimento com sua família</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="divisor"></div>
+
+<!-- ═══ 8. COMO AJUDAR ═══ -->
+<div class="bg-branco" id="ajudar">
+<div class="secao">
+  <div class="reveal visivel">
+    <h2 class="secao-titulo"><span class="num">08 — AÇÃO</span>Como você pode ajudar hoje?</h2>
+    <div class="secao-linha"></div>
+    <p class="secao-intro">Proteger o rio Guamá e a baía do Guajará começa com pequenas atitudes no dia a dia. Cada ação conta.</p>
+  </div>
+  <div class="ajudar-grid reveal reveal-d1 visivel">
+    <div class="ajudar-card">
+      <span class="ajudar-emoji">🏠</span>
+      <div class="ajudar-titulo">Em casa</div>
+      <ul class="ajudar-lista">
+        <li>Guarde óleo de cozinha usado e leve a pontos de coleta</li>
+        <li>Reduza produtos químicos como alvejantes</li>
+        <li>Conserte vazamentos domésticos</li>
+      </ul>
+    </div>
+    <div class="ajudar-card">
+      <span class="ajudar-emoji">🏘️</span>
+      <div class="ajudar-titulo">No bairro</div>
+      <ul class="ajudar-lista">
+        <li>Nunca jogue lixo em igarapés ou canais</li>
+        <li>Evite queimar lixo perto de corpos d'água</li>
+        <li>Organize mutirões de limpeza das margens</li>
+      </ul>
+    </div>
+    <div class="ajudar-card">
+      <span class="ajudar-emoji">🌊</span>
+      <div class="ajudar-titulo">Nas margens</div>
+      <ul class="ajudar-lista">
+        <li>Nunca lance esgoto diretamente no rio</li>
+        <li>Instale fossa séptica se possível</li>
+        <li>Preserve árvores e arbustos à beira do rio</li>
+      </ul>
+    </div>
+    <div class="ajudar-card">
+      <span class="ajudar-emoji">🐟</span>
+      <div class="ajudar-titulo">Para pescadores</div>
+      <ul class="ajudar-lista">
+        <li>Não descarte restos de pesca na água</li>
+        <li>Relate mudanças na cor ou odor da água</li>
+        <li>Participe de associações ambientais</li>
+      </ul>
+    </div>
+    <div class="ajudar-card">
+      <span class="ajudar-emoji">📚</span>
+      <div class="ajudar-titulo">Jovens e estudantes</div>
+      <ul class="ajudar-lista">
+        <li>Leve esse conhecimento para a escola</li>
+        <li>Participe de projetos de educação ambiental</li>
+        <li>Divulgue nas redes sociais</li>
+      </ul>
+    </div>
+    <div class="ajudar-card">
+      <span class="ajudar-emoji">📢</span>
+      <div class="ajudar-titulo">Denuncie</div>
+      <ul class="ajudar-lista">
+        <li>Viu poluição? Denuncie!</li>
+        <li>IBAMA: 0800 61 8080</li>
+        <li>SEMAS-PA: (91) 3284-9143</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="reveal reveal-d2 visivel">
+    <h3 style="font-family:'Fraunces',serif; font-size:18px; color:var(--azul); margin-bottom:14px;">Onde denunciar poluição em Belém:</h3>
+  </div>
+  <div class="denuncia-grid reveal reveal-d3 visivel">
+    <div class="denuncia-card">
+      <div class="denuncia-orgao">SEMAS-PA</div>
+      <div class="denuncia-fiscal">Poluição em rios do estado do Pará</div>
+      <div class="denuncia-contato">semas.pa.gov.br · Ouvidoria: (91) 3284-9143</div>
+    </div>
+    <div class="denuncia-card">
+      <div class="denuncia-orgao">SEMMA Belém</div>
+      <div class="denuncia-fiscal">Poluição no município de Belém</div>
+      <div class="denuncia-contato">semma.belem.pa.gov.br</div>
+    </div>
+    <div class="denuncia-card">
+      <div class="denuncia-orgao">IBAMA</div>
+      <div class="denuncia-fiscal">Crimes ambientais graves</div>
+      <div class="denuncia-contato">0800 61 8080 (gratuito)</div>
+    </div>
+    <div class="denuncia-card">
+      <div class="denuncia-orgao">MP do Pará (MPPA)</div>
+      <div class="denuncia-fiscal">Violações e falta de saneamento</div>
+      <div class="denuncia-contato">(91) 4006-3400 · mppa.mp.br</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ ODS 6 ═══ -->
+<div class="divisor"></div>
+<div class="bg-off" id="ods">
+<div class="secao">
+  <div class="reveal visivel">
+    <h2 class="secao-titulo"><span class="num">🌍 AGENDA 2030</span>O direito à água limpa é uma meta global</h2>
+    <div class="secao-linha"></div>
+    <p class="secao-intro">Em 2015, os 193 países membros da ONU adotaram a Agenda 2030 com 17 Objetivos de Desenvolvimento Sustentável (ODS). O ODS 6 trata diretamente do que este estudo revela sobre Belém.</p>
+  </div>
+
+  <div class="reveal reveal-d1 visivel" style="background:var(--azul); border-radius:20px; padding:28px 32px; text-align:center; margin-bottom:24px; position:relative; overflow:hidden;">
+    <div style="position:absolute;top:-30px;right:-30px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
+    <div style="font-size:48px; margin-bottom:10px;">💧</div>
+    <div style="font-family:'Fraunces',serif; font-size:32px; font-weight:900; color:var(--branco); letter-spacing:4px; margin-bottom:6px;">ODS 6</div>
+    <div style="font-size:15px; font-weight:700; color:var(--agua); letter-spacing:2px; margin-bottom:12px; text-transform:uppercase;">ÁGUA POTÁVEL E SANEAMENTO</div>
+    <div style="font-size:14px; color:rgba(255,255,255,0.75); line-height:1.7;">Assegurar a disponibilidade e gestão sustentável da água e saneamento para todos.</div>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px;" class="reveal reveal-d2 visivel">
+    <div style="background:var(--branco); border-radius:16px; padding:20px 18px; box-shadow:0 4px 18px var(--sombra); border-left:5px solid var(--agua);">
+      <div style="font-size:22px; margin-bottom:8px;">🚰</div>
+      <div style="font-size:13px; font-weight:700; color:var(--azul); margin-bottom:6px;">Meta 6.1 — Acesso universal à água potável</div>
+      <div style="font-size:12.5px; color:#5a6a7a; line-height:1.6; margin-bottom:8px;">Alcançar o acesso universal e equitativo à água potável e segura para todos até 2030.</div>
+      <div style="background:var(--laran-cl); border-radius:8px; padding:8px 12px; font-size:11.5px; color:var(--laranja); font-weight:600;">⚠️ Belém: apenas 15,91% do esgoto é coletado — o acesso pleno ainda está muito distante.</div>
+    </div>
+    <div style="background:var(--branco); border-radius:16px; padding:20px 18px; box-shadow:0 4px 18px var(--sombra); border-left:5px solid var(--agua);">
+      <div style="font-size:22px; margin-bottom:8px;">🚿</div>
+      <div style="font-size:13px; font-weight:700; color:var(--azul); margin-bottom:6px;">Meta 6.2 — Saneamento e higiene para todos</div>
+      <div style="font-size:12.5px; color:#5a6a7a; line-height:1.6; margin-bottom:8px;">Alcançar o acesso a saneamento e higiene adequados e acabar com a defecação a céu aberto.</div>
+      <div style="background:var(--laran-cl); border-radius:8px; padding:8px 12px; font-size:11.5px; color:var(--laranja); font-weight:600;">⚠️ Belém: somente 2,82% do esgoto recebe tratamento.</div>
+    </div>
+    <div style="background:var(--branco); border-radius:16px; padding:20px 18px; box-shadow:0 4px 18px var(--sombra); border-left:5px solid var(--agua);">
+      <div style="font-size:22px; margin-bottom:8px;">🌊</div>
+      <div style="font-size:13px; font-weight:700; color:var(--azul); margin-bottom:6px;">Meta 6.3 — Melhorar a qualidade da água</div>
+      <div style="font-size:12.5px; color:#5a6a7a; line-height:1.6; margin-bottom:8px;">Melhorar a qualidade da água, reduzindo a poluição e minimizando a liberação de substâncias perigosas.</div>
+      <div style="background:var(--laran-cl); border-radius:8px; padding:8px 12px; font-size:11.5px; color:var(--laranja); font-weight:600;">⚠️ Rio Guamá e Baía do Guajará: nota 58,9 (RUIM) — muito abaixo do esperado.</div>
+    </div>
+    <div style="background:var(--branco); border-radius:16px; padding:20px 18px; box-shadow:0 4px 18px var(--sombra); border-left:5px solid var(--agua);">
+      <div style="font-size:22px; margin-bottom:8px;">🌿</div>
+      <div style="font-size:13px; font-weight:700; color:var(--azul); margin-bottom:6px;">Meta 6.6 — Proteger ecossistemas aquáticos</div>
+      <div style="font-size:12.5px; color:#5a6a7a; line-height:1.6; margin-bottom:8px;">Proteger e restaurar ecossistemas aquáticos, incluindo rios, zonas úmidas e lagos.</div>
+      <div style="background:var(--laran-cl); border-radius:8px; padding:8px 12px; font-size:11.5px; color:var(--laranja); font-weight:600;">⚠️ O sistema estuarino de Belém ainda enfrenta degradação crônica.</div>
+    </div>
+  </div>
+
+  <div class="alerta azul reveal reveal-d3 visivel" style="margin-bottom:16px;">
+    <span class="alerta-icon">📌</span>
+    <div>
+      <div class="alerta-titulo">Este estudo também se relaciona com</div>
+      <div class="alerta-txt"><strong>ODS 11</strong> — Cidades e Comunidades Sustentáveis &nbsp;·&nbsp; <strong>ODS 14</strong> — Vida na Água</div>
+    </div>
+  </div>
+
+  <div class="reveal reveal-d4 visivel" style="background:var(--verde); border-radius:16px; padding:24px 28px; text-align:center;">
+    <div style="font-size:14px; color:rgba(255,255,255,0.85); line-height:1.8;">
+      Enquanto o mundo debate metas globais de saneamento,<br>
+      <strong style="color:var(--branco);">Belém ainda lança quase todo o seu esgoto nos rios sem tratamento.</strong><br>
+      A ciência mostrou o problema. A solução começa com ação.
+    </div>
+  </div>
+
+  <p style="font-size:11px; color:#aaa; margin-top:14px; font-family:'Space Mono',monospace;">
+    Fonte: Nações Unidas Brasil. Objetivos de Desenvolvimento Sustentável. brasil.un.org/pt-br/sdgs
+  </p>
+</div>
+</div>
+
+<!-- ═══ FRASE FINAL ═══ -->
+<div style="padding: 0 24px; max-width: 960px; margin: 0 auto;">
+  <div class="frase-final-wrap reveal visivel">
+    <div class="frase-final">A água limpa não é <span>privilégio</span>.<br>É direito.</div>
+    <div class="frase-sub">E começa com informação. Compartilhe essa cartilha.</div>
+    <a href="#rios" class="frase-cta">Reler a cartilha ↑</a>
+  </div>
+</div>
+
+<!-- ═══ GLOSSÁRIO ═══ -->
+<div class="bg-off">
+<div class="secao">
+  <div class="reveal visivel">
+    <h2 class="secao-titulo"><span class="num">GLOSSÁRIO</span>Palavras que você pode não conhecer</h2>
+    <div class="secao-linha"></div>
+  </div>
+  <div class="curiosidades-grid reveal reveal-d1 visivel">
+    <div class="curio-card" style="border-top-color: var(--azul)">
+      <div class="curio-titulo">Eutrofização</div>
+      <div class="curio-txt">Excesso de nutrientes (como fósforo) na água que provoca crescimento descontrolado de algas, reduzindo o oxigênio e prejudicando todos os seres vivos.</div>
+    </div>
+    <div class="curio-card" style="border-top-color: var(--azul)">
+      <div class="curio-titulo">IQA (Índice de Qualidade da Água)</div>
+      <div class="curio-txt">Nota de 0 a 100 que resume vários parâmetros em um único valor, facilitando o entendimento da situação da água para qualquer pessoa.</div>
+    </div>
+    <div class="curio-card" style="border-top-color: var(--azul)">
+      <div class="curio-titulo">Oxigênio Dissolvido</div>
+      <div class="curio-txt">A quantidade de oxigênio presente na água. Peixes e outros animais aquáticos precisam dele para sobreviver, como nós precisamos do oxigênio do ar.</div>
+    </div>
+    <div class="curio-card" style="border-top-color: var(--azul)">
+      <div class="curio-titulo">Estuário</div>
+      <div class="curio-txt">Região de encontro entre um rio e o mar, onde a água doce se mistura com a salgada. A baía do Guajará é um estuário — ambiente único e muito sensível.</div>
+    </div>
+    <div class="curio-card" style="border-top-color: var(--azul)">
+      <div class="curio-titulo">Maré vazante</div>
+      <div class="curio-txt">Quando o nível da água está descendo, a corrente empurra a água dos igarapés e canais urbanos em direção à baía. É o momento em que a carga de esgoto acumulada nos canais é lançada no corpo receptor.&nbsp;</div>
+    </div>
+    <div class="curio-card" style="border-top-color: var(--azul)">
+      <div class="curio-titulo">Autodepuração</div>
+      <div class="curio-txt">Capacidade natural do rio de eliminar poluentes através de processos biológicos e físicos. Em Belém, essa capacidade está sobrecarregada pelo volume de esgoto lançado.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- ═══ REFERÊNCIAS ═══ -->
+<div class="divisor"></div>
+<div style="background:#0D3B5C; padding:60px 24px;">
+<div style="max-width:960px; margin:0 auto;">
+  <div class="reveal visivel">
+    <h2 style="font-family:'Fraunces',serif; font-size:32px; font-weight:700; color:#FFFFFF; margin-bottom:8px;">
+      <span style="font-family:'Space Mono',monospace; font-size:11px; color:#0ABDE3; letter-spacing:2px; display:block; margin-bottom:6px;">FONTES</span>
+      Referências
+    </h2>
+    <div style="width:50px; height:3px; background:linear-gradient(90deg,#0ABDE3,transparent); border-radius:2px; margin:12px 0 28px;"></div>
+    <p style="font-size:13px; color:rgba(255,255,255,0.55); margin-bottom:28px; line-height:1.6;">
+      Esta cartilha foi elaborada com base no Trabalho de Conclusão de Curso de Beatriz Maria da Silva (UFPA, 2026) e nas referências científicas e normativas listadas abaixo.
+    </p>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:10px;" class="reveal reveal-d1 visivel">
+
+    <div style="background:rgba(255,255,255,0.06); border-radius:12px; padding:14px 18px; border-left:3px solid #0ABDE3;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.85); line-height:1.7; font-family:'Plus Jakarta Sans',sans-serif;">
+        BOTELHO, R. et al. <strong style="color:#fff;">Avaliação sazonal da qualidade da água na sub-região hidrográfica do Guamá, Belém–PA.</strong> 2024.
+      </p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.06); border-radius:12px; padding:14px 18px; border-left:3px solid #0ABDE3;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.85); line-height:1.7; font-family:'Plus Jakarta Sans',sans-serif;">
+        BRASIL. <strong style="color:#fff;">Resolução CONAMA n.º 357, de 17 de março de 2005.</strong> Dispõe sobre a classificação dos corpos de água e diretrizes ambientais para o seu enquadramento. Diário Oficial da União, Brasília, DF, 18 mar. 2005.
+      </p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.06); border-radius:12px; padding:14px 18px; border-left:3px solid #0ABDE3;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.85); line-height:1.7; font-family:'Plus Jakarta Sans',sans-serif;">
+        CANADIAN COUNCIL OF MINISTERS OF THE ENVIRONMENT (CCME). <strong style="color:#fff;">Canadian water quality guidelines for the protection of aquatic life: CCME Water Quality Index, User's Manual — 2017 Update.</strong> In: Canadian environmental quality guidelines, 1999. Winnipeg: CCME, 2017.
+      </p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.06); border-radius:12px; padding:14px 18px; border-left:3px solid #0ABDE3;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.85); line-height:1.7; font-family:'Plus Jakarta Sans',sans-serif;">
+        COSTA, J. et al. <strong style="color:#fff;">Caracterização da qualidade da água superficial nos distritos administrativos do município de Belém – PA.</strong> 2022.
+      </p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.06); border-radius:12px; padding:14px 18px; border-left:3px solid #0ABDE3;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.85); line-height:1.7; font-family:'Plus Jakarta Sans',sans-serif;">
+        INSTITUTO ESTADUAL DO AMBIENTE (INEA). <strong style="color:#fff;">Índice de Qualidade da Água Canadense (IQA-CCME): metodologia.</strong> Rio de Janeiro: INEA, [s.d.].
+      </p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.06); border-radius:12px; padding:14px 18px; border-left:3px solid #0ABDE3;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.85); line-height:1.7; font-family:'Plus Jakarta Sans',sans-serif;">
+        INSTITUTO NACIONAL DE METEOROLOGIA (INMET). <strong style="color:#fff;">Banco de Dados Meteorológicos para Ensino e Pesquisa (BDMEP).</strong> Estação automática A201 — Belém, PA. Disponível em: bdmep.inmet.gov.br. Acesso em: 2022–2026.
+      </p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.06); border-radius:12px; padding:14px 18px; border-left:3px solid #0ABDE3;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.85); line-height:1.7; font-family:'Plus Jakarta Sans',sans-serif;">
+        MARINHO, T. et al. <strong style="color:#fff;">As atividades antrópicas na modulação da qualidade da água do rio Guamá, Belém–PA.</strong> 2020.
+      </p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.06); border-radius:12px; padding:14px 18px; border-left:3px solid #0ABDE3;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.85); line-height:1.7; font-family:'Plus Jakarta Sans',sans-serif;">
+        NAÇÕES UNIDAS BRASIL. <strong style="color:#fff;">Objetivos de Desenvolvimento Sustentável.</strong> 2025. Disponível em: brasil.un.org/pt-br/sdgs. Acesso em: 2025.
+      </p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.06); border-radius:12px; padding:14px 18px; border-left:3px solid #0ABDE3;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.85); line-height:1.7; font-family:'Plus Jakarta Sans',sans-serif;">
+        PARÁ. <strong style="color:#fff;">Plano Estadual de Recursos Hídricos do Pará.</strong> Belém: SEMAS, 2022.
+      </p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.06); border-radius:12px; padding:14px 18px; border-left:3px solid #0ABDE3;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.85); line-height:1.7; font-family:'Plus Jakarta Sans',sans-serif;">
+        REIS, J. A. T. dos; MENDONÇA, A. S. F. <strong style="color:#fff;">Análise técnica dos novos padrões brasileiros para amônia em corpos d'água.</strong> Revista Brasileira de Recursos Hídricos, 2009.
+      </p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.06); border-radius:12px; padding:14px 18px; border-left:3px solid #0ABDE3;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.85); line-height:1.7; font-family:'Plus Jakarta Sans',sans-serif;">
+        RIBEIRO, M. et al. <strong style="color:#fff;">Índice do Estado Trófico (IET) em águas amazônicas: baía do Marajó e baía do Guajará.</strong> 2020.
+      </p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.06); border-radius:12px; padding:14px 18px; border-left:3px solid #0ABDE3;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.85); line-height:1.7; font-family:'Plus Jakarta Sans',sans-serif;">
+        ROCHA, A. et al. <strong style="color:#fff;">Análise de qualidade das águas do igarapé Tucunduba dentro da área urbana da UFPA.</strong> 2023.
+      </p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.06); border-radius:12px; padding:14px 18px; border-left:3px solid #0ABDE3;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.85); line-height:1.7; font-family:'Plus Jakarta Sans',sans-serif;">
+        SANTOS, L. F. et al. <strong style="color:#fff;">Avaliação da qualidade da água da baía do Guajará em Belém/PA.</strong> 2020.
+      </p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.06); border-radius:12px; padding:14px 18px; border-left:3px solid #0ABDE3;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.85); line-height:1.7; font-family:'Plus Jakarta Sans',sans-serif;">
+        SILVA, B. M. da. <strong style="color:#fff;">Avaliação da qualidade da água superficial em trechos do Rio Guamá e da Baía do Guajará, Belém–PA: aplicação do IQA-CCME em conformidade com a Resolução CONAMA n.º 357/2005.</strong> Trabalho de Conclusão de Curso (Graduação em Engenharia Sanitária e Ambiental) — Faculdade de Engenharia Sanitária e Ambiental, Instituto de Tecnologia, Universidade Federal do Pará, Belém, 2026.
+      </p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.06); border-radius:12px; padding:14px 18px; border-left:3px solid #0ABDE3;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.85); line-height:1.7; font-family:'Plus Jakarta Sans',sans-serif;">
+        SILVA, R. et al. <strong style="color:#fff;">Modelagem da dinâmica evolutiva da qualidade da água na Baía do Guajará.</strong> 2020.
+      </p>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.06); border-radius:12px; padding:14px 18px; border-left:3px solid #0ABDE3;">
+      <p style="font-size:12px; color:rgba(255,255,255,0.85); line-height:1.7; font-family:'Plus Jakarta Sans',sans-serif;">
+        VARELA, C. et al. <strong style="color:#fff;">Qualidade da água e índice de estado trófico no rio Guamá, Belém–PA.</strong> 2020.
+      </p>
+    </div>
+
+  </div>
+
+  <p style="font-size:11px; color:rgba(255,255,255,0.25); margin-top:24px; font-family:'Space Mono',monospace; text-align:center; letter-spacing:1px;">
+    YCATU · @ycatu.belem · Belém, PA · 2026
+  </p>
+</div>
+</div>
+
+<!-- ═══ RODAPÉ ═══ -->
+<footer>
+  <div class="footer-logo">Y<span>C</span>ATU</div>
+  <p style="font-size:11px; color:rgba(255,255,255,0.5); margin-bottom:6px; font-family:'Space Mono',monospace; letter-spacing:1px">REVELANDO A QUALIDADE, PRESERVANDO A VIDA</p>
+  <p class="footer-txt">Beatriz Maria da Silva · Graduanda em Engenharia Sanitária e Ambiental · UFPA · Belém, PA · 2026</p>
+  <p class="footer-txt" style="margin-top:2px">Orientadora: Prof.ª Dr.ª Katiucia Nascimento Adam — FAESA/ITEC/UFPA</p>
+  <p class="footer-txt" style="margin-top:4px">Fonte: SILVA, B. M. da. Avaliação da qualidade da água superficial em trechos do Rio Guamá e da Baía do Guajará, Belém–PA: aplicação do IQA-CCME. TCC, UFPA, 2026.</p>
+</footer>
+
+<script>
+// Barra de progresso
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const pct = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+  document.getElementById('progress').style.transform = `scaleX(${pct})`;
+
+  // Nav ativo
+  const secs = document.querySelectorAll('div[id]');
+  const links = document.querySelectorAll('.nav-links a');
+  secs.forEach(sec => {
+    const rect = sec.getBoundingClientRect();
+    if (rect.top <= 80 && rect.bottom >= 80) {
+      links.forEach(l => {
+        l.classList.toggle('ativo', l.getAttribute('href') === '#' + sec.id);
+      });
+    }
+  });
+});
+
+// Reveal ao scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visivel');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Accordion parâmetros
+function toggleParam(el) {
+  const aberto = el.classList.contains('aberto');
+  document.querySelectorAll('.param-item').forEach(p => p.classList.remove('aberto'));
+  if (!aberto) el.classList.add('aberto');
+}
+</script>
+
+  <button class="bar-btn resetar" onclick="resetarEdicao()">
+    ↺ Resetar
+  </button>
+</div>
+
+
+
+
+
+</body></html>
